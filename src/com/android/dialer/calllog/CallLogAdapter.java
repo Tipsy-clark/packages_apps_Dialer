@@ -51,6 +51,7 @@ import com.android.contacts.common.CallUtil;
 import com.android.contacts.common.ClipboardUtils;
 import com.android.contacts.common.util.PermissionsUtil;
 import com.android.dialer.DialtactsActivity;
+import com.android.dialer.MiniMarkActivity;
 import com.android.dialer.PhoneCallDetails;
 import com.android.dialer.R;
 import com.android.dialer.contactinfo.ContactInfoCache;
@@ -63,13 +64,13 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.util.HashMap;
 
-import com.suda.cloud.phone.PhoneUtil;
+import com.sudamod.sdk.phonelocation.PhoneUtil;
 /**
  * Adapter class to fill in data for the Call Log.
  */
 public class CallLogAdapter extends GroupingListAdapter
         implements CallLogGroupBuilder.GroupCreator,
-                VoicemailPlaybackPresenter.OnVoicemailDeletedListener {
+                VoicemailPlaybackPresenter.OnVoicemailDeletedListener, MiniMarkActivity.CallBack  {
 
     /** Interface used to initiate a refresh of the content. */
     public interface CallFetcher {
@@ -295,6 +296,11 @@ public class CallLogAdapter extends GroupingListAdapter
                 }
             };
 
+    @Override
+    public void updateView() {
+        this.notifyDataSetChanged();
+    }
+
     public CallLogAdapter(
             Context context,
             CallFetcher callFetcher,
@@ -303,6 +309,7 @@ public class CallLogAdapter extends GroupingListAdapter
             boolean isShowingRecentsTab) {
         super(context);
 
+        MiniMarkActivity.setCallBack(context.getClass().toString(), CallLogAdapter.this);
         mContext = context;
         mCallFetcher = callFetcher;
         mContactInfoHelper = contactInfoHelper;
