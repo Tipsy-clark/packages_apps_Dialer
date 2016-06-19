@@ -53,7 +53,7 @@
             android:summary="%s"
             android:entries="@array/call_recording_encoder_entries"
             android:entryValues="@array/call_recording_encoder_values"
-            android:defaultValue="0" />
+            android:defaultValue="1" />
 
     </PreferenceCategory>
 
